@@ -1,17 +1,32 @@
 {
   "name": "fuzzy-new-file",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "CLI to create file/folder with fuzzy-file matching autocomplete",
+  "main": "dist/index.js",
+  "bin": {
+    "fnf": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JoeNg93/fuzzy-new-file"
+  },
   "scripts": {
     "build": "build:clean && build:transpile",
     "build:clean": "rimraf dist",
     "build:transpile": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "prepublishOnly": "yarn build"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "fuzzy-file",
+    "autocomplete",
+    "cli"
+  ],
+  "author": "Joe Nguyen <ntuandung93@gmail.com>",
+  "license": "MIT",
   "devDependencies": {
     "@types/inquirer": "^6.5.0",
     "@types/node": "^14.0.13",
