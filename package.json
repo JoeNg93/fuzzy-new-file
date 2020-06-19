@@ -14,11 +14,11 @@
     "url": "https://github.com/JoeNg93/fuzzy-new-file"
   },
   "scripts": {
-    "build": "build:clean && build:transpile",
+    "build": "npm run build:clean && npm run build:transpile",
     "build:clean": "rimraf dist",
     "build:transpile": "tsc",
     "start": "node dist/index.js",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "fuzzy-file",
