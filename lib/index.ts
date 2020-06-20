@@ -20,7 +20,7 @@ function main() {
     process.exit(1);
   }
 
-  yargs.command(setupCommand()).help().argv;
+  yargs.command(setupCommand()).version().help().argv;
 }
 
 main();
