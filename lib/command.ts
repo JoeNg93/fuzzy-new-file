@@ -11,7 +11,7 @@ inquirer.registerPrompt(
 );
 
 interface CommandOptions {
-  root: string;
+  root?: string;
   noIgnoreVcs: boolean;
 }
 
@@ -22,8 +22,7 @@ export const setupCommand = () => {
     builder: {
       root: {
         description:
-          'Root folder where autocomplete will list its subdirectories',
-        default: process.cwd(),
+          'Root folder where autocomplete will list its subdirectories. Default is current working directory',
       },
       'no-ignore-vcs': {
         description:
@@ -35,7 +34,7 @@ export const setupCommand = () => {
       const { root, noIgnoreVcs } = args;
 
       const subDirs = globby.sync('**', {
-        cwd: root,
+        cwd: root ?? process.cwd(),
         onlyDirectories: true,
         gitignore: !noIgnoreVcs,
       });

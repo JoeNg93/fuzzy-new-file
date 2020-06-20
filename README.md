@@ -21,8 +21,8 @@ Create file/folder with fuzzy-file matching autocomplete.
 Options:
   --version        Show version number                                 [boolean]
   --help           Show help                                           [boolean]
-  --root           Root folder where autocomplete will list its subdirectories
-                               [default: "<your-current-working-directory>"]
+  --root           Root folder where autocomplete will list its subdirectories.
+                   Default is current working directory
   --no-ignore-vcs  Show search results from files and directories that would
                    otherwise be ignored by '.gitignore' files   [default: false]
 ```
