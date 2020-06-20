@@ -12,6 +12,7 @@ inquirer.registerPrompt(
 
 interface CommandOptions {
   root: string;
+  noIgnoreVcs: boolean;
 }
 
 export const setupCommand = () => {
@@ -23,14 +24,19 @@ export const setupCommand = () => {
           'Root folder where autocomplete will list its subdirectories',
         default: process.cwd(),
       },
+      'no-ignore-vcs': {
+        description:
+          "Show search results from files and directories that would otherwise be ignored by '.gitignore' files",
+        default: false,
+      },
     },
     handler: async (args: yargs.Arguments<CommandOptions>) => {
-      const { root } = args;
+      const { root, noIgnoreVcs } = args;
 
       const subDirs = globby.sync('**', {
         cwd: root,
         onlyDirectories: true,
-        gitignore: true,
+        gitignore: !noIgnoreVcs,
       });
 
       // Where to put a file/folder
