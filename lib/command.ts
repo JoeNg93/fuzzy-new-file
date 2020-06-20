@@ -45,7 +45,7 @@ export const setupCommand = () => {
       // File/folder path relative to the parent dir
       const { targetPath } = await inquirer.prompt({
         name: 'targetPath',
-        message: `Target path relative to: ${parentDir} (end the path with '/' to create a folder)`,
+        message: `Target path (end the path with '/' to create a folder):\n${parentDir}/`,
       });
 
       // Check if the path already exists
