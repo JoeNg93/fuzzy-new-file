@@ -18,6 +18,7 @@ interface CommandOptions {
 export const setupCommand = () => {
   return {
     command: '$0',
+    description: 'Create file/folder with fuzzy-file matching autocomplete.',
     builder: {
       root: {
         description:
