@@ -4,6 +4,7 @@ import path from 'path';
 import yargs from 'yargs';
 import globby from 'globby';
 import inquirer from 'inquirer';
+import FuzzySearch from 'fuzzy-search';
 
 inquirer.registerPrompt(
   'autocomplete',
@@ -38,14 +39,14 @@ export const setupCommand = () => {
         onlyDirectories: true,
         gitignore: !noIgnoreVcs,
       });
+      const searcher = new FuzzySearch(subDirs);
 
       // Where to put a file/folder
       const { parentDir } = await inquirer.prompt({
         name: 'parentDir',
         message: 'Parent directory',
         type: 'autocomplete',
-        source: async (_: any, input: string = '') =>
-          subDirs.filter((dir) => dir.indexOf(input) !== -1),
+        source: async (_: any, input: string = '') => searcher.search(input),
       } as any);
 
       // File/folder path relative to the parent dir
