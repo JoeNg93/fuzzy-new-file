@@ -5,6 +5,7 @@ import yargs from 'yargs';
 import globby from 'globby';
 import inquirer from 'inquirer';
 import FuzzySearch from 'fuzzy-search';
+import execa from 'execa';
 
 inquirer.registerPrompt(
   'autocomplete',
@@ -14,6 +15,7 @@ inquirer.registerPrompt(
 interface CommandOptions {
   root?: string;
   noIgnoreVcs: boolean;
+  searchEngine: 'fd' | 'node';
 }
 
 export const setupCommand = () => {
@@ -30,16 +32,41 @@ export const setupCommand = () => {
           "Show search results from files and directories that would otherwise be ignored by '.gitignore' files",
         default: false,
       },
+      'search-engine': {
+        description: `
+Search engine used to search for list of directories. Possible values:
+  - fd: Very fast search engine, see: https://github.com/sharkdp/fd. Require installation. Recommended for directories having a lot of subdirectories
+  - node: Built-in node search logic, no need to install anything.
+`,
+        choices: ['node', 'fd'],
+        default: 'node',
+      },
     },
     handler: async (args: yargs.Arguments<CommandOptions>) => {
-      const { root, noIgnoreVcs } = args;
+      const { root = process.cwd(), noIgnoreVcs, searchEngine } = args;
 
-      let subDirs = globby.sync('**', {
-        cwd: root ?? process.cwd(),
-        onlyDirectories: true,
-        gitignore: !noIgnoreVcs,
-      });
-
+      let subDirs: string[];
+      switch (searchEngine) {
+        case 'node':
+          subDirs = globby
+            .sync('**', {
+              cwd: root,
+              onlyDirectories: true,
+              gitignore: !noIgnoreVcs,
+            })
+            .sort();
+          break;
+        case 'fd':
+          const cmd = await execa(
+            'fd',
+            ['--type', 'd', ...(noIgnoreVcs ? ['--no-ignore-vcs'] : [])],
+            { cwd: root }
+          );
+          subDirs = cmd.stdout.split('\n').sort();
+          break;
+        default:
+          throw new Error('Not possible');
+      }
       subDirs = ['/'].concat(subDirs.map((d) => '/' + d)); // Add current directory as one possible dir, also add leading slash to path
       const searcher = new FuzzySearch(subDirs);
 
