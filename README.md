@@ -4,6 +4,8 @@ CLI to create file/folder with fuzzy-file matching autocomplete.
 
 The CLI will provide a list of searchable subdirectories of the current working directory for you to choose where you want to create nested folders/files.
 
+![Demo](./docs/demo.gif)
+
 ## Installation
 
 **Note**: The CLI requires Node v10 or above.
