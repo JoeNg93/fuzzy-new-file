@@ -34,20 +34,23 @@ export const setupCommand = () => {
     handler: async (args: yargs.Arguments<CommandOptions>) => {
       const { root, noIgnoreVcs } = args;
 
-      const subDirs = globby.sync('**', {
+      let subDirs = globby.sync('**', {
         cwd: root ?? process.cwd(),
         onlyDirectories: true,
         gitignore: !noIgnoreVcs,
       });
+
+      subDirs = ['/'].concat(subDirs.map((d) => '/' + d)); // Add current directory as one possible dir, also add leading slash to path
       const searcher = new FuzzySearch(subDirs);
 
       // Where to put a file/folder
-      const { parentDir } = await inquirer.prompt({
+      let { parentDir } = await inquirer.prompt({
         name: 'parentDir',
         message: 'Parent directory',
         type: 'autocomplete',
         source: async (_: any, input: string = '') => searcher.search(input),
       } as any);
+      parentDir = parentDir.slice(1); // Remove leading slash
 
       // File/folder path relative to the parent dir
       const { targetPath } = await inquirer.prompt({
