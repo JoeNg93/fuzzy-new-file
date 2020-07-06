@@ -1,6 +1,6 @@
 {
   "name": "fuzzy-new-file",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "CLI to create file/folder with fuzzy-file matching autocomplete",
   "main": "dist/index.js",
   "bin": {
