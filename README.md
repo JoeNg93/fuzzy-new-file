@@ -14,6 +14,8 @@ The CLI will provide a list of searchable subdirectories of the current working 
 npm install -g fuzzy-new-file
 ```
 
+**Tips**: If you are planning to use the CLI in a directory with a lot of subdirectories, to improve the performance significantly, I recommend installing [https://github.com/sharkdp/fd](https://github.com/sharkdp/fd) then use `--search-engine fd` when running the CLI.
+
 ## Usage
 
 ```bash
@@ -29,6 +31,15 @@ Options:
                    Default is current working directory
   --no-ignore-vcs  Show search results from files and directories that would
                    otherwise be ignored by '.gitignore' files   [default: false]
+  --search-engine
+                    Search engine used to search for list of directories.
+                    Possible values:
+                    - fd: Very fast search engine, see:
+                    https://github.com/sharkdp/fd. Require installation.
+                    Recommended for directories having a lot of subdirectories
+                    - node: Built-in node search logic, no need to install
+                    anything.
+                                       [choices: "node", "fd"] [default: "node"]
 ```
 
 ```bash
